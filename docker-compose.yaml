@@ -9,3 +9,14 @@ services:
     ports:
       - 5000:5000
     command: ["bash", "-c", "uvicorn main:app --reload --port 5000 --host 0.0.0.0"]
+  redis:
+    image: redis/redis-stack-server:6.2.0
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_ARGS=--save 60 1 --loglevel warning --protected-mode no
+
+volumes:
+  redis_data:
