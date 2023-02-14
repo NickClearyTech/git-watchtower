@@ -1,0 +1,15 @@
+# Basic Requirements
+fastapi==0.89.0
+uvicorn==0.20.0
+
+# Kubernetes
+kubernetes==25.3.0
+
+# Git
+gitpython==3.1.30
+
+# Celery
+celery[redis]==5.2.7
+
+# Redis
+redis==4.5.1
