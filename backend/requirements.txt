@@ -13,3 +13,6 @@ celery[redis]==5.2.7
 
 # Redis
 redis==4.5.1
+
+# Templating
+jinja2==3.1.2

@@ -10,10 +10,9 @@ ENV PYTHONBUFFERED=1
 # create an unprivledged user
 RUN adduser --disabled-password --gecos '' app
 
-COPY ./backend/requirements.txt .
+COPY ./requirements.txt .
 RUN pip3 install --upgrade pip && pip3 install --no-cache-dir -r requirements.txt
 
-COPY ./backend/main.py /watchtower
-COPY ./backend/watchtower /watchtower/watchtower
+COPY . /watchtower
 
 WORKDIR /watchtower
