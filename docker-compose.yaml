@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ~/.kube:/root/.kube
+      - ./backend:/watchtower
+    environment:
+      - ENVIRONMENT=develop
     ports:
       - 5000:5000
     command: ["bash", "-c", "uvicorn main:app --reload --port 5000 --host 0.0.0.0"]
