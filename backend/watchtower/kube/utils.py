@@ -15,3 +15,16 @@ def get_kube_client() -> client.CoreV1Api:
             config_file=os.environ.get("KUBECONFIG_PATH", "/root/.kube/config")
         )
     return client.CoreV1Api()
+
+
+def get_kube_namespace() -> str:
+    """
+    A helper function that gets the namespace to look for items in
+    :return: String version of namespace name
+    """
+    # If the application is running in a cluster, then return that namespace
+    if os.environ.get("NAMESPACE", None) is not None:
+        return os.environ.get("NAMESPACE")
+    elif os.environ.get("ENVIRONMENT", "CLUSTER").lower() == "cluster":
+        return "watchtower" # TODO: Get namespace name from pod
+    return "watchtower"
