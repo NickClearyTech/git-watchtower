@@ -9,20 +9,13 @@ setup_info = dict(
     description="A CLI to interact with the Git Watchtower service",
     license_files=["LICENSE"],
     license="MIT",
-    platforms=[
-        "Unix"
-    ],
+    platforms=["Unix"],
     python_requires=">=3.10",
-    install_requires=[
-        "click>8.1"
-    ],
-    packages=["watchtower"] + ["watchtower." + pkg for pkg in find_packages("watchtower")],
+    install_requires=["click>8.1"],
+    packages=["watchtower"]
+    + ["watchtower." + pkg for pkg in find_packages("watchtower")],
     include_package_data=True,
-    entry_points={
-        "console_scripts": [
-            "watchtower=watchtower.main:main"
-        ]
-    }
+    entry_points={"console_scripts": ["watchtower=watchtower.main:main"]},
 )
 
 setup(**setup_info)
