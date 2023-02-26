@@ -2,9 +2,9 @@ from typing import List
 
 from fastapi import APIRouter, Depends
 from watchtower.utils.api_utils.dependencies import CommonK8sQueryParams
-from watchtower.models.secrets import Repository, CreateRepository
+from watchtower.models.secrets import Repository, CreateRepository, ResponseRepository
 from watchtower.kube.utils import get_kube_client, get_kube_namespace
-from watchtower.models.utils import secret_to_model
+from watchtower.kube.secrets import secret_to_model, model_to_secret
 
 router = APIRouter(
     prefix="/repository",
@@ -16,7 +16,7 @@ router = APIRouter(
 @router.get("/")
 def get_repositories(
     common: CommonK8sQueryParams = Depends(CommonK8sQueryParams),
-) -> List[Repository]:
+) -> List[ResponseRepository]:
     client = get_kube_client()
     result = client.list_namespaced_secret(
         namespace=get_kube_namespace(),
@@ -24,14 +24,12 @@ def get_repositories(
         _continue=common.continue_token,
         limit=common.limit,
     )
-    to_return = []
-    for repo in result.items:
-        to_return.append(secret_to_model(repo, Repository))
 
-    thingy = CreateRepository(name="Hello there", url="https://amazon.com")
-    return to_return
+    return [secret_to_model(repo, ResponseRepository) for repo in result.items]
 
 
 @router.post("/")
-def create_repository(repo: CreateRepository):
+def create_repository(repo: CreateRepository) -> ResponseRepository:
+    repo_object = Repository(**repo.dict())
+    secret = model_to_secret(repo_object)
     return repo
